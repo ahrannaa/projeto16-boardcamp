@@ -1,13 +1,14 @@
-import { gamesSchema } from "../models/games.models";
+import { gamesSchema } from "../models/games.models.js";
 
 export async function gamesValidation(req, res, next) {
-    const { name, image, stockTotal, categoryId, pricePerDay } = req.body
+    const { name } = req.body
 
-    const validation = gamesSchema.validate({ name, image, stockTotal, categoryId, pricePerDay }, { abortEarly: false })
+    const validation = gamesSchema.validate({ name }, { abortEarly: false })
 
     if (validation.error) {
         const erros = validation.error.details.map((detail) => detail.message)
         res.status(400).send(erros)
         return;
     }
+    next()
 }

@@ -17,11 +17,19 @@ export async function getCategories(req, res) {
 export async function postCategories(req, res) {
     const { name } = req.body
 
+    const categories = await connection.query("SELECT * FROM categories")
+    console.log(categories)
+    const category = await connection.query("SELECT * FROM categories WHERE name=$1"[categories.rows.name])
+    if (!category) {
+        res.send("Essa categoria já existe")
+        return;
+    }
+
     try {
         const result = await connection.query("INSERT INTO categories (name) VALUES ($1)", [name])
         console.log(result)
         res.sendStatus(201)
-    
+
     } catch (err) {
         console.log(err)
         res.sendStatus(500)

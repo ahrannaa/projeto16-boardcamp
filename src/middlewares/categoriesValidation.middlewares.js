@@ -10,5 +10,7 @@ export async function categoriesValidation(req, res, next) {
         res.status(400).send(erros)
         return;
     }
+    next()
 }
+
 
