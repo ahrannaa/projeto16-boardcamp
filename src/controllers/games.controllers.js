@@ -10,7 +10,6 @@ export async function getGames(req, res) {
         console.log(err)
         res.sendStatus(500)
     }
-
 }
 export async function postGames(req, res) {
     const { name, image, stockTotal, categoryId, pricePerDay } = req.body
