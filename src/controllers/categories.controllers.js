@@ -17,14 +17,13 @@ export async function getCategories(req, res) {
 export async function postCategories(req, res) {
     const { name } = req.body
 
-    const categories = await connection.query("SELECT * FROM categories")
-    console.log(categories)
-    const category = await connection.query("SELECT * FROM categories WHERE name=$1"[categories.rows.name])
-    if (!category) {
-        res.send("Essa categoria já existe")
+    const categorie = await connection.query("SELECT * FROM categories WHERE name=$1;",[name])
+     console.log(categorie)
+     if (categorie.rows.length != 0) {
+        res.status(409).send("Essa categoria já existe")
         return;
     }
-
+   
     try {
         const result = await connection.query("INSERT INTO categories (name) VALUES ($1)", [name])
         console.log(result)

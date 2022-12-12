@@ -1,3 +1,4 @@
+import connection from "../database/db.js";
 import { customersSchema } from "../models/customers.models.js";
 
 export async function customersValidation(req, res, next) {
@@ -10,5 +11,12 @@ export async function customersValidation(req, res, next) {
         res.status(400).send(erros)
         return;
     }
+
+    const customer = await connection.query("SELECT * FROM customers WHERE cpf=$1", [cpf])
+    if (customer.rows.length != 0) {
+        res.send(" Já existe um cliente cadastrado com esses dados.")
+        return;
+    }
+
     next()
 }
